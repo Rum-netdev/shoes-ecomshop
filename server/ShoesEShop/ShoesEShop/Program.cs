@@ -56,7 +56,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(IBroker).Assembly));
 builder.Services.AddScoped<IBroker, Broker>();
 builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
-builder.Services.AddAutoMapper(typeof(AppUserProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(IMappingProfileConfiguration).Assembly);
 
 // Registering options
 builder.Services.ConfigureOptions<JwtConfigurationOptionSetup>();

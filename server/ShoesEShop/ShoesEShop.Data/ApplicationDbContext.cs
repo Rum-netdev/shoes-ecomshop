@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoesEShop.Data
 {
@@ -23,6 +18,8 @@ namespace ShoesEShop.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            #region Identity configuration
             builder.Entity<AppUser>()
                 .ToTable("Users")
                 .HasKey(e => e.Id);
@@ -45,9 +42,17 @@ namespace ShoesEShop.Data
 
             builder.Entity<IdentityUserToken<int>>()
                 .ToTable("UserTokens").HasKey(t => t.UserId);
+            #endregion
+
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
         }
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<AppRole> Roles { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
     }
 }

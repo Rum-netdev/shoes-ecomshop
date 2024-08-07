@@ -7,6 +7,10 @@
         public int PageCount { get; set; }
         public int TotalRecords { get; set; }
 
+        public PaginationResult(ICollection<T> data)
+        {
+        }
+
         public PaginationResult(ICollection<T> data, int pageSize, int pageCount, int totalRecords)
         {
         }
