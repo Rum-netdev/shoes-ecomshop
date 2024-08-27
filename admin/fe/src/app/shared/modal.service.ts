@@ -1,31 +1,55 @@
-import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from "@angular/core";
+import { ComponentFactoryResolver, ComponentRef, Inject, Injectable, Injector, TemplateRef, ViewContainerRef } from "@angular/core";
 import { ModalComponent } from "./components/modal/modal.component";
 import { Subject } from "rxjs";
+import { DOCUMENT } from "@angular/common";
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class ModalService {
+    // componentRef: ComponentRef<ModalComponent>;
+    private modalNotifier: Subject<string>;
 
-    componentRef: ComponentRef<ModalComponent>;
-    componentSubscribers: Subject<string>;
     constructor(
-        private factoryResolver: ComponentFactoryResolver
+        private factoryResolver: ComponentFactoryResolver,
+        private injector: Injector,
+        @Inject(DOCUMENT) private document: Document
     ) 
     {
     }
 
-    createModal(entry: ViewContainerRef, title: string) {
-        let factory = this.factoryResolver.resolveComponentFactory(ModalComponent);
-        this.componentRef = entry.createComponent(factory);
-        this.componentRef.instance.title = title;
-        this.componentRef.instance.CloseModalEvent.subscribe(() => this.closeModal());
-        this.componentSubscribers = new Subject<string>();
-        return this.componentSubscribers.asObservable();
+    open(content: TemplateRef<any>, options: {title: string}) {
+        const modalComponentFactory = this.factoryResolver.resolveComponentFactory(ModalComponent);
+        const contentViewRef = content.createEmbeddedView(null);
+        const modalComponent = modalComponentFactory.create(this.injector, [
+            contentViewRef.rootNodes
+        ]);
+
+        modalComponent.instance.title = options.title;
+
+        modalComponent.instance.closeEvent.subscribe(() => {
+            this.closeModal();
+        });
+        modalComponent.instance.submitEvent.subscribe(() => {
+            this.afterClose();
+            this.submitModal();
+        });
+
+        modalComponent.hostView.detectChanges();
+        this.document.body.appendChild(modalComponent.location.nativeElement);
+
+        this.modalNotifier = new Subject();
+        return this.modalNotifier?.asObservable();
     }
 
     closeModal() {
-        this.componentSubscribers.complete();
-        this.componentRef.destroy();
+        this.modalNotifier.complete();
+    }
+
+    submitModal() {
+        this.modalNotifier.next('confirm');
+        this.closeModal();
+    }
+
+    afterClose() {
+        this.modalNotifier.next('afterClose');
     }
 }

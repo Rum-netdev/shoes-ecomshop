@@ -7,12 +7,17 @@
         public int PageCount { get; set; }
         public int TotalRecords { get; set; }
 
-        public PaginationResult(ICollection<T> data)
+        public PaginationResult(List<T> data)
         {
+            Data = data;
         }
 
-        public PaginationResult(ICollection<T> data, int pageSize, int pageCount, int totalRecords)
+        public PaginationResult(List<T> data, int pageSize, int pageCount, int totalRecords)
         {
+            Data = data;
+            PageSize = pageSize;
+            PageCount = pageCount;
+            TotalRecords = totalRecords;
         }
     }
 }

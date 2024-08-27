@@ -26,10 +26,7 @@ namespace ShoesEShop.Handler.Products.Commands
 
         public Task<CreateProductCommandResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            //var brand = _db.Brands.Where(t => t.Id == request.BrandId).FirstOrDefault();
-            //var areCategoriesExisting = _db.Categories
-            //    .Select(t => t.Id);
-
+            var brand = _db.Brands.Where(t => t.Id == request.BrandId).FirstOrDefault();
             throw new NotImplementedException();
         }
     }

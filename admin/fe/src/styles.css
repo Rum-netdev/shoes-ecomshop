@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --custom-primary-color: #4E73DF;
+}
+
+#wrapper {
+    height: 100vh;
+}
+
+.sidebar {
+    min-height: 100%!important;
+}

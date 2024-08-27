@@ -45,6 +45,7 @@ export class Api {
 		return this.req<T>('post', url, body, customHeaders) as any;
 	}
 
+
 	paramsUrl(url: string, params: any) {
 		if (params != null) {
 			const values: any[] = Object.values(params);
@@ -76,5 +77,10 @@ export class Api {
 	postWithParams<T>(url: string, params: any = null,body: any = undefined, customHeaders: any = undefined): Observable<T> {
 		url = this.paramsUrl(url, params);
 		return this.req<T>('post', url, body, customHeaders) as any;
+	}
+	
+	deleteWithParams<T>(url: string, params: any = undefined, customHeaders: any = undefined) : Observable<T> {
+		url = this.paramsUrl(url, params);
+		return this.req<T>('delete', url);
 	}
 }

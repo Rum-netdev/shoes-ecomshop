@@ -1,0 +1,11 @@
+.modal-content {
+    border: none;
+}
+
+.modal-header {
+    background-color: var(--custom-primary-color);
+}
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+}

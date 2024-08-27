@@ -12,6 +12,7 @@ using ShoesEShop.Handler.Infrastructures;
 using ShoesEShop.Handler.Mapping;
 using ShoesEShop.Handler.Services;
 using ShoesEShop.Handler.Services.Interfaces;
+using ShoesEShop.Web.Filters;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,8 +56,18 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(IBroker).Assembly));
 builder.Services.AddScoped<IBroker, Broker>();
+builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
 builder.Services.AddAutoMapper(typeof(IMappingProfileConfiguration).Assembly);
+
+builder.Services.AddSwaggerGen(config =>
+{
+    config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "ShoesEShop API V1",
+        Version = "v1"
+    });
+});
 
 // Registering options
 builder.Services.ConfigureOptions<JwtConfigurationOptionSetup>();
@@ -72,7 +83,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
+// Enable action filters
+builder.Services.AddScoped<ValidateFileExtensionsFilter>();
+
+//builder.Services.AddControllersWithViews();
+builder.Services.AddControllers(cfg =>
+{
+    cfg.Filters.Add(typeof(ValidateFileExtensionsFilter));
+});
 
 var app = builder.Build();
 
@@ -93,6 +111,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // Seed data before run application
 using (var scope = app.Services.CreateScope())
@@ -102,6 +122,5 @@ using (var scope = app.Services.CreateScope())
     var roleManager = provider.GetRequiredService<RoleManager<AppRole>>();
     await DataSeeder.SeedAsync(userManager, roleManager);
 }
-
 
 app.Run();

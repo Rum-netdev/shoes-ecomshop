@@ -289,6 +289,7 @@ namespace ShoesEShop.Data.Migrations
             modelBuilder.Entity("ShoesEShop.Data.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int>("BrandId")

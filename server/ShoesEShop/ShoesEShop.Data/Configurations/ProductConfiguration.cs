@@ -16,6 +16,8 @@ namespace ShoesEShop.Data.Configurations
             builder.ToTable("Products");
             builder.HasKey(k => k.Id);
 
+            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd();
             builder.Property(p => p.ProductName).IsRequired();
             builder.Property(p => p.Price).IsRequired();
             builder.Property(p => p.Quantity).IsRequired();

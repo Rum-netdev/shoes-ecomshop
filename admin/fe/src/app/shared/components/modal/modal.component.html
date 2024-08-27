@@ -1,12 +1,42 @@
-<div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+<!-- style="display: block;" -->
+<div class="modal" style="display: block;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-white">{{ title }}</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ title }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
         <ng-content></ng-content>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary text-white" (click)="submit()">Submit</button>
+      </div>
     </div>
+  </div>
 </div>
+
+<div class="modal-backdrop" (click)="close()"></div>
+
+
+<!-- <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" style="display: block;">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">{{ title }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div> -->
