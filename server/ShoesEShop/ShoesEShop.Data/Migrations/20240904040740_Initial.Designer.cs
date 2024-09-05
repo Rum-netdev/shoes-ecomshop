@@ -12,7 +12,7 @@ using ShoesEShop.Data;
 namespace ShoesEShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240822045932_Initial")]
+    [Migration("20240904040740_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,6 +294,8 @@ namespace ShoesEShop.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
@@ -325,6 +327,8 @@ namespace ShoesEShop.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.ToTable("Products", (string)null);
                 });
 
@@ -341,6 +345,28 @@ namespace ShoesEShop.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("ProductCategories", (string)null);
+                });
+
+            modelBuilder.Entity("ShoesEShop.Data.Entities.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Urls")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -398,7 +424,7 @@ namespace ShoesEShop.Data.Migrations
                 {
                     b.HasOne("ShoesEShop.Data.Entities.Brand", "Brand")
                         .WithMany("Products")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -424,6 +450,17 @@ namespace ShoesEShop.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ShoesEShop.Data.Entities.ProductImage", b =>
+                {
+                    b.HasOne("ShoesEShop.Data.Entities.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ShoesEShop.Data.Entities.Brand", b =>
                 {
                     b.Navigation("Products");
@@ -437,6 +474,8 @@ namespace ShoesEShop.Data.Migrations
             modelBuilder.Entity("ShoesEShop.Data.Entities.Product", b =>
                 {
                     b.Navigation("ProductCategories");
+
+                    b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618
         }

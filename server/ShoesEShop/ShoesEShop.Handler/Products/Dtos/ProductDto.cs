@@ -8,5 +8,6 @@
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public string BrandName { get; set; }
+        public string[] ImageUrls { get; set; }
     }
 }

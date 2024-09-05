@@ -17,6 +17,7 @@ namespace ShoesEShop.Data.Configurations
             builder.HasKey(k => k.Id);
 
             builder.Property(p => p.Id)
+                .UseIdentityColumn()
                 .ValueGeneratedOnAdd();
             builder.Property(p => p.ProductName).IsRequired();
             builder.Property(p => p.Price).IsRequired();
@@ -24,7 +25,8 @@ namespace ShoesEShop.Data.Configurations
 
             builder.HasOne(s => s.Brand)
                 .WithMany(d => d.Products)
-                .HasForeignKey(fk => fk.Id);
+                .HasForeignKey(fk => fk.BrandId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

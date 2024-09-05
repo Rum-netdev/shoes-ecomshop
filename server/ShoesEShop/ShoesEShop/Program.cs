@@ -58,7 +58,9 @@ builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof
 builder.Services.AddScoped<IBroker, Broker>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddAutoMapper(typeof(IMappingProfileConfiguration).Assembly);
+
 
 builder.Services.AddSwaggerGen(config =>
 {

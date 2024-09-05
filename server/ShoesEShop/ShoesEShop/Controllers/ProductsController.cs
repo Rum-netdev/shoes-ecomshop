@@ -26,16 +26,36 @@ namespace ShoesEShop.Web.Controllers
             => Ok(await _broker.Query(new GetAllProductsQuery()));
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateProductCommand command)
+        [AllowFileExtensions(".jpg", ".png", ".jpeg")]
+        public async Task<IActionResult> Create([FromForm] IFormFileCollection images, [FromForm] CreateProductCommand command)
         {
-            throw new NotImplementedException();
+            command.Images = images;
+            var result = await _broker.Command(command);
+            return result.IsSucceed ?
+                Ok(result) :
+                BadRequest(result);
         }
 
         [HttpPost("bulk_insert")]
         [AllowFileExtensions(".csv", ".xlsx")]
         public async Task<IActionResult> BulkInsertProducts(IFormFile file)
         {
-            var result = await _broker.Command(new BulkInsertProductsCommand {  ProductsFile = file });
+            var result = await _broker.Command(new BulkInsertProductsCommand { ProductsFile = file });
+            return Ok(result);
+        }
+
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] string productId)
+        {
+            var result = await _broker.Command(new DeleteProductCommand { ProductId = int.Parse(productId) });
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductCommand command)
+        {
+            var result = await _broker.Command(command);
             return Ok(result);
         }
     }

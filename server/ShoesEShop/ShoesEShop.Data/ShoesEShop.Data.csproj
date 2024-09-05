@@ -23,4 +23,8 @@
 	  <ProjectReference Include="..\ShoesEShop.Core\ShoesEShop.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
+
 </Project>

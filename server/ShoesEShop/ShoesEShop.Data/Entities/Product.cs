@@ -15,7 +15,7 @@ namespace ShoesEShop.Data.Entities
         public DateTime ModifiedAt { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
-
         public IList<ProductCategory> ProductCategories { get; set; }
+        public IList<ProductImage> ProductImages { get; set; }
     }
 }

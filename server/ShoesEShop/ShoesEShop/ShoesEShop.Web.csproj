@@ -28,5 +28,8 @@
 	  <ProjectReference Include="..\ShoesEShop.Data\ShoesEShop.Data.csproj" />
 	  <ProjectReference Include="..\ShoesEShop.Handler\ShoesEShop.Handler.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="wwwroot\Images\Products\" />
+	</ItemGroup>
 
 </Project>
